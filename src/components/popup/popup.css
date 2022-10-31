@@ -1,0 +1,19 @@
+#empList{
+    padding: 5px;
+    width: 200px;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.groupCheck{
+    align-self: flex-end;
+    width: auto;
+}
+#popupBody{
+    overflow-y: scroll;
+    max-height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+#popupBody::-webkit-scrollbar { width: 0 !important }
