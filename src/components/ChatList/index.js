@@ -2,6 +2,7 @@ import DeleteIcon from "../../assets/svg/delete.svg";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setChatScreenData } from "../../store/features/chatScreenReducer";
+import { addChaMessage } from "../../store/features/chatlistReducer";
 
 export const ChatList = ({ data, setChatUser, isChatTab }) => {
     console.log(data);
@@ -14,7 +15,10 @@ export const ChatList = ({ data, setChatUser, isChatTab }) => {
     return (
         <>
             {isChatTab &&
-                <div className="chatList" onClick={() => dispatch(setChatScreenData(data.receiver))}>
+                <div className="chatList" onClick={() =>{
+                    dispatch(setChatScreenData(data.receiver))
+                    dispatch(addChaMessage(data))
+                    }}>
                     <div className="profile"></div>
                     <div className="user">
                         <div className="userName">{data.receiver}</div>

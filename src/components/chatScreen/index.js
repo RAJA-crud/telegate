@@ -5,7 +5,8 @@ import media from '../../assets/svg/media.svg'
 import send from '../../assets/svg/send.svg'
 import clearChat from '../../assets/svg/clearChat.svg'
 import axios from "axios"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addChaMessage } from "../../store/features/chatlistReducer"
 
 
 
@@ -13,15 +14,18 @@ export const ChatScreen = ({chatType})=>{
     const {chatData} = useSelector((_state)=> _state.chatlist)
     const {chatName} = useSelector((_state)=> _state.chatScreen)
     console.log(chatData, "state",chatName);
-    const[chatMessage,setChatMessage]= useState({})
+    const[chatMessage,setChatMessage]= useState({
+        messages:[]
+    })
     const [message,setMessage] = useState({})
     const [base64,setBase64] = useState("")
     const {groupMessageData} = useSelector(state=> state.groupMessage)
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         setMessage({...message, 'image':base64})
     },[base64])
-    
+    console.log(chatMessage,"chatMESSAGE");
     const chatBody = useRef(0)
     useEffect(()=>{
         if(chatType === 'chat' && chatData.length){
@@ -63,7 +67,7 @@ export const ChatScreen = ({chatType})=>{
            console.log(base64);
          const msg = {
             senderId: "arun01",
-            [val.type === 'text' ? "message" : "image"]: [val.type === 'text' ? val.value : base64],
+            [val.type === 'text' ? "message" : "image"]: val.type === 'text' ? val.value : base64,
             id: new Date(),
             type: val.type
          }
@@ -76,12 +80,11 @@ export const ChatScreen = ({chatType})=>{
         
         // if(!message.message || !message.image) return
         console.log(message,"____________________");
-        console.log(chatMessage,"CCCCCCCCCCCCCCCCCCCCCCcc");
-        let newMessage = {...chatMessage}
-        newMessage.messages.push(message)
-         setChatMessage(newMessage)
-         setMessage({...message, "message":""})
-         chatBody.current.scrollTop = chatBody.current.scrollHeight
+        const newMessage = {...chatMessage}
+        // newMessage["messages"].push(message)
+        setChatMessage({...chatMessage, "messages":[...chatMessage['messages'], message]})
+        setMessage({...message, "message":""})
+        chatBody.current.scrollTop = chatBody.current.scrollHeight
     }
     console.log(chatMessage);
     const chatClear=()=>{
@@ -103,7 +106,7 @@ export const ChatScreen = ({chatType})=>{
             </div>
         </div>
         <div id="body" ref={chatBody}>
-          {chatMessage.messages?.map((msg, i) => (
+          {chatMessage?.messages?.map((msg, i) => (
             <div
               id="message"
               key={i}

@@ -10,7 +10,8 @@ import { addGroupData, setGroupData } from '../../store/features/groupListReduce
 export function Popup(props) {
   const [addEmp, setAddEmp]=useState(false)
   const [groupDetails,setGroupDetails]= useState({
-    employees:[]
+    employees:[],
+    messages:[]
   })
   const [employeeList,setEmployeeList] = useState([])
   const dispatch = useDispatch()
