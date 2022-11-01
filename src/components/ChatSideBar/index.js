@@ -4,12 +4,18 @@ import { Link } from 'react-router-dom'
 import { Button } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { Popup } from "../popup"
+import { useDispatch, useSelector } from "react-redux"
+import { setChatScreenData } from "../../store/features/chatScreenReducer"
 
 export const ChatSideBar = ({ setChatUser, setChatType }) => {
     const [modalShow, setModalShow] = useState(false);
     const [groupDetail, setGroupDetail] = useState({});
     const [groups, setGroups] = useState([])
     const [isChatTab, setIsChatTab] = useState(true)
+    const dispatch = useDispatch()
+    const {groupMessageData} = useSelector(state=> state.groupMessage)
+
+    console.log("groupMessageData",groupMessageData);
 
     useEffect(() => {
         if (Object.values(groupDetail).length) {
@@ -20,6 +26,11 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
         isChatTab ? setChatType("chat") : setChatType('group')
     }, [isChatTab])
     console.log(groups);
+    const handleClick =(e)=>{
+        const event = e.target
+        event.id === 'chats' ? setIsChatTab(true) : setIsChatTab( false)
+        dispatch(setChatScreenData(""))
+    }
 
     return (
         <div id="sideBar">
@@ -41,15 +52,15 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
             </div>
             <div id="body">
                 <div id="nav">
-                    <div id="chats" onClick={() => setIsChatTab(true)}>CHATS</div>
-                    <div id="groups" onClick={() => setIsChatTab(false)}>GROUPS</div>
+                    <div id="chats" onClick={handleClick}>CHATS</div>
+                    <div id="groups" onClick={handleClick}>GROUPS</div>
                 </div>
                 <div id="bodyContent">
                     {isChatTab && chatListData?.map((data, i) => (
                         <ChatList setChatUser={setChatUser} isChatTab={isChatTab} key={i} data={data} />
                     ))}
  
-                    {!isChatTab && groups?.map((data, i) => (
+                    {!isChatTab && groupMessageData?.map((data, i) => (
                         <ChatList setChatUser={setChatUser} isChatTab={isChatTab} key={i} data={data} />
                     ))}
 

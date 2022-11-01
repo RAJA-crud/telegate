@@ -1,8 +1,11 @@
 import DeleteIcon from "../../assets/svg/delete.svg";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setChatScreenData } from "../../store/features/chatScreenReducer";
 
 export const ChatList = ({ data, setChatUser, isChatTab }) => {
     console.log(data);
+    const dispatch = useDispatch()
 
     const removeuser = ()=>{
         axios.get("http://localhost:4200/UserLogin")
@@ -11,7 +14,7 @@ export const ChatList = ({ data, setChatUser, isChatTab }) => {
     return (
         <>
             {isChatTab &&
-                <div className="chatList" onClick={() => setChatUser(data.receiver)}>
+                <div className="chatList" onClick={() => dispatch(setChatScreenData(data.receiver))}>
                     <div className="profile"></div>
                     <div className="user">
                         <div className="userName">{data.receiver}</div>
@@ -23,7 +26,7 @@ export const ChatList = ({ data, setChatUser, isChatTab }) => {
             }
 
             {!isChatTab &&
-                <div className="chatList" onClick={() => setChatUser(data.groupName)}>
+                <div className="chatList" onClick={() => dispatch(setChatScreenData(data.groupName))}>
                     <div className="profile"></div>
                     <div className="user">
                         <div className="userName">{data.groupName}</div>

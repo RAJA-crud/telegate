@@ -4,6 +4,8 @@ import { employees } from '../../utils/employees'
 import './popup.css'
 import Form from 'react-bootstrap/Form';
 import { useState,useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addGroupData, setGroupData } from '../../store/features/groupListReducer';
 
 export function Popup(props) {
   const [addEmp, setAddEmp]=useState(false)
@@ -11,6 +13,7 @@ export function Popup(props) {
     employees:[]
   })
   const [employeeList,setEmployeeList] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     setGroupDetails({...groupDetails, "employees": employeeList})
@@ -27,6 +30,7 @@ export function Popup(props) {
   }
 
   const createGroup=()=>{
+    dispatch(addGroupData(groupDetails))
        props.setGroupDetail(groupDetails)
        setAddEmp(false)
        props.onHide()

@@ -9,12 +9,14 @@ import { useSelector } from "react-redux";
 
 
 
-export const ChatScreen = ({chatUser, chatType})=>{
-    const selector = useSelector(state=>state.chatlist)
-    console.log(selector,"selectorrr");
+export const ChatScreen = ({chatType})=>{
+    const {chatData} = useSelector((_state)=> _state.chatlist)
+    const {chatName} = useSelector((_state)=> _state.chatScreen)
+    console.log(chatData, "state",chatName);
     const[chatMessage,setChatMessage]= useState({})
     const [message,setMessage] = useState({})
     const [base64,setBase64] = useState("")
+    const {groupMessageData} = useSelector(state=> state.groupMessage)
 
     useEffect(()=>{
         setMessage({...message, 'image':base64})
@@ -22,20 +24,20 @@ export const ChatScreen = ({chatUser, chatType})=>{
     
     const chatBody = useRef(0)
     useEffect(()=>{
-        if(chatType === 'chat'){
-            const chat = chatListData.find((data)=>{
-                return data.receiver === chatUser
+        if(chatType === 'chat' && chatData.length){
+            const chat = chatData?.find((data)=>{
+                return data.receiver === chatName
             })
-            console.log(chat, chatUser);
+            console.log(chat, chatName);
             setChatMessage(chat)
-        }else if(chatType === "group"){
-            const chat = groupMessage.find((data)=>{
-                return data.id === 1
+        }else if(chatType === "group" && chatData.length){
+            const chat = groupMessageData.find((data)=>{
+                return data.groupName === chatName
             })
-            console.log(chat, chatUser);
+            console.log(chat, groupMessageData,"ervregrrgr");
             setChatMessage(chat)
         }
-    },[chatUser])
+    },[chatName])
 
     const imagetoBase64 = (src)=>{
         const preview = document.querySelector('img');
@@ -88,10 +90,13 @@ export const ChatScreen = ({chatUser, chatType})=>{
     }
     return (
       <div id="chatScreen">
+        {
+            chatName.length ?
+        <>
         <div id="header">
           <div id="profile"></div>
           <div id="userName">
-            {chatType === "chat" ? chatMessage.receiver : chatMessage.members}
+            {chatType === "chat" ? chatMessage?.receiver : chatMessage?.groupName}
           </div>
           <div className="clear-chat">
                     <img src={clearChat} onClick={chatClear}/>
@@ -124,22 +129,27 @@ export const ChatScreen = ({chatUser, chatType})=>{
               placeholder="Enter the message..."
             />
           </div>
-          <div class="dropZoneContainer">
+          <div className="dropZoneContainer">
             <input
               type="file"
               id="drop_zone"
-              class="FileUpload"
+              className="FileUpload"
               accept=".jpg,.png,.gif"
               onChange={handleChange}
             />
-            <div class="dropZoneOverlay">
+            <div className="dropZoneOverlay">
                 <img src={media} height={"30px"} width={"30px"} alt="media" />
             </div>
           </div>
           <button onClick={sendMessage}>
             <img src={send} height={"30px"} width={"30px"} alt="send" />
           </button>
-        </div>
+        </div>     
+        </>
+        :
+        <>
+        </>         
+                }
       </div>
     );
 }
