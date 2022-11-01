@@ -3,8 +3,15 @@ import { chatListData, groupMessage } from "../../utils/data"
 import emoji from '../../assets/svg/emoji.svg'
 import media from '../../assets/svg/media.svg'
 import send from '../../assets/svg/send.svg'
+import clearChat from '../../assets/svg/clearChat.svg'
+import axios from "axios"
+import { useSelector } from "react-redux";
+
+
 
 export const ChatScreen = ({chatUser, chatType})=>{
+    const selector = useSelector(state=>state.chatlist)
+    console.log(selector,"selectorrr");
     const[chatMessage,setChatMessage]= useState({})
     const [message,setMessage] = useState({})
     const chatBody = useRef(0)
@@ -43,11 +50,18 @@ export const ChatScreen = ({chatUser, chatType})=>{
          chatBody.current.scrollTop = chatBody.current.scrollHeight
     }
     console.log(chatMessage);
+    const chatClear=()=>{
+        axios.get("http://localhost:4200/UserLogin")
+
+    }
     return(
         <div id="chatScreen">
             <div id="header">
                 <div id="profile"></div>
                 <div id="userName">{chatType === "chat" ? chatMessage.receiver : chatMessage.members}</div>
+                <div className="clear-chat">
+                    <img src={clearChat} onClick={chatClear}/>
+                </div>
             </div>
             <div id="body" ref={chatBody}>{
                 chatMessage.messages?.map((msg,i)=>(

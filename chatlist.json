@@ -1,0 +1,136 @@
+{
+    "chatListData": [
+        {
+            "id": 1,
+            "receiver": "Raja",
+            "receiverId": "raja01",
+            "isAdmin": false,
+            "lastMessage": "hello testing 123",
+            "messages": [
+                {
+                    "id": 1,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 1
+                },
+                {
+                    "id": 2,
+                    "senderId": "raja01",
+                    "message": "hi",
+                    "timeStamp": 2
+                },
+                {
+                    "id": 3,
+                    "senderId": "arun01",
+                    "message": "testing 123 hello testing 123 hello testing 123 hello testing 123 hello testing 123 hello testing 123",
+                    "timeSta3mp": 3
+                },
+                {
+                    "id": 4,
+                    "senderId": "raja01",
+                    "message": "hi",
+                    "timeStamp": 4
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "receiver": "Suresh",
+            "receiverId": "suresh01",
+            "isAdmin": false,
+            "lastMessage": "hello",
+            "messages": [
+                {
+                    "id": 1,
+                    "senderId": "suresh01",
+                    "message": "hi",
+                    "timeStamp": 1
+                },
+                {
+                    "id": 2,
+                    "senderId": "arun01",
+                    "message": "suresh",
+                    "timeStamp": 2
+                },
+                {
+                    "id": 3,
+                    "senderId": "suresh01",
+                    "message": "arun",
+                    "timeSta3mp": 3
+                },
+                {
+                    "id": 4,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 4
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "receiver": "roy",
+            "receiverId": "roy01",
+            "isAdmin": false,
+            "lastMessage": " 123",
+            "messages": [
+                {
+                    "id": 1,
+                    "senderId": "suresh01",
+                    "message": "hello",
+                    "timeStamp": 1
+                },
+                {
+                    "id": 2,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 2
+                },
+                {
+                    "id": 3,
+                    "senderId": "suresh01",
+                    "message": "testing",
+                    "timeSta3mp": 3
+                },
+                {
+                    "id": 4,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 4
+                }
+            ]
+        }
+    ],
+    "groupMessage": [
+        {
+            "id": 1,
+            "groupName": "demo group",
+            "members": "raja, suresh, arun, roy",
+            "messages": [
+                {
+                    "id": 1,
+                    "senderId": "suresh01",
+                    "message": "hello",
+                    "timeStamp": 1
+                },
+                {
+                    "id": 2,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 2
+                },
+                {
+                    "id": 3,
+                    "senderId": "suresh01",
+                    "message": "testing",
+                    "timeSta3mp": 3
+                },
+                {
+                    "id": 4,
+                    "senderId": "arun01",
+                    "message": "hi",
+                    "timeStamp": 4
+                }
+            ]
+        }
+    ]
+}

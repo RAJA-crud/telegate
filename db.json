@@ -1,25 +1,70 @@
 {
-  "UserLogin":[
+  "UserLogin": [
     {
-      "id":1,
-      "userName":"Roy",
-      "userId":"roy01",
+      "id": 1,
+      "userName": "Roy",
+      "userId": "roy01",
       "isAdmin": true,
-      "email":"roy@email.com"
+      "email": "roy@email.com"
     },
     {
-      "id":2,
-      "userName":"Raja",
-      "userId":"raja01",
+      "id": 2,
+      "userName": "Raja",
+      "userId": "raja01",
       "isAdmin": false,
-      "email":"raja@email.com"
+      "email": "raja@email.com"
     },
     {
-      "id":3,
-      "userName":"Arun",
-      "userId":"arun01",
+      "id": 3,
+      "userName": "Arun",
+      "userId": "arun01",
       "isAdmin": false,
-      "email":"arun@email.com"
+      "email": "arun@email.com"
+    },
+    {
+      "userData": {
+        "userName": "Roy",
+        "password": "123456"
+      },
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    }
+  ],
+  "employeeList": [
+    {
+      "id": 1,
+      "userName": "Roy",
+      "userId": "roy01",
+      "isAdmin": true,
+      "email": "roy@email.com"
+    },
+    {
+      "id": 2,
+      "userName": "Raja",
+      "userId": "raja01",
+      "isAdmin": false,
+      "email": "raja@email.com"
+    },
+    {
+      "id": 3,
+      "userName": "Arun",
+      "userId": "arun01",
+      "isAdmin": false,
+      "email": "arun@email.com"
     }
   ]
 }
