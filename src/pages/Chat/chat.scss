@@ -174,6 +174,28 @@
                     padding-left: 10px;
                 }
             }
+
+
+            .dropZoneOverlay, .FileUpload {
+                width: 30px;
+                height: 30px;
+            }
+    
+            .dropZoneOverlay {
+                border: dotted 1px;
+                font-family: cursive;
+                color: #7066fb;
+                position: absolute;
+                bottom: 15px;
+                cursor: grab;
+                text-align: center;
+            }
+    
+            .FileUpload {
+                opacity: 0;
+                position: relative;
+                z-index: 1;
+            }
         }
     }
 }
