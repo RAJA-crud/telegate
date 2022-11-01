@@ -1,11 +1,11 @@
 import {createSlice}from '@reduxjs/toolkit';
 
 export const groupMessageSlice = createSlice({
-    name:'chatlist',
+    name:'groupMessagereducer',
     initialState:{groupMessageData:{}},
     reducers:{
         groupMessagereducer:(state,action)=>{
-            state.chatData = action.payload
+            state.groupMessageData = action.payload
         },
     }
 })
