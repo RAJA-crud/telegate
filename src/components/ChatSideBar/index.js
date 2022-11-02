@@ -9,11 +9,17 @@ import { setChatScreenData } from "../../store/features/chatScreenReducer"
 
 export const ChatSideBar = ({ setChatUser, setChatType }) => {
     const [modalShow, setModalShow] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [groupDetail, setGroupDetail] = useState({});
     const [groups, setGroups] = useState([])
     const [isChatTab, setIsChatTab] = useState(true)
     const dispatch = useDispatch()
     const {groupMessageData} = useSelector(state=> state.groupMessage)
+    const {role,userName} = useSelector((_state)=> _state.login.loginData)
+
+    useEffect(()=>{
+        role=== "Admin" ? setIsAdmin(true) : setIsAdmin(false)
+    },[role])
 
     console.log("groupMessageData",groupMessageData);
 
@@ -40,8 +46,8 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
                         <div id="profile"></div>
                     </Link>
                     <div id="user">
-                        <div id="userName">Arun kumar</div>
-                        <div id="userRole">Admin</div>
+                        <div id="userName">{userName}</div>
+                        <div id="userRole">{role}</div>
                     </div>
                     <div id="button">
                         <Button variant="secondary" onClick={() => setModalShow(true)} >Create</Button>

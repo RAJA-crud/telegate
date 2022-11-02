@@ -11,8 +11,10 @@ import { addChaMessage } from "../../store/features/chatlistReducer"
 
 
 export const ChatScreen = ({chatType})=>{
+
     const {chatData} = useSelector((_state)=> _state.chatlist)
     const {chatName} = useSelector((_state)=> _state.chatScreen)
+    const [isAdmin, setIsAdmin] = useState(true)
     console.log(chatData, "state",chatName);
     const[chatMessage,setChatMessage]= useState({
         messages:[]
@@ -25,6 +27,11 @@ export const ChatScreen = ({chatType})=>{
     useEffect(()=>{
         setMessage({...message, 'image':base64})
     },[base64])
+
+    const {role} = useSelector((_state)=> _state.login.loginData)
+    useEffect(()=>{
+        role=== "Admin" ? setIsAdmin(true) : setIsAdmin(false)
+    },[role])
     console.log(chatMessage,"chatMESSAGE");
     const chatBody = useRef(0)
     useEffect(()=>{
@@ -58,6 +65,13 @@ export const ChatScreen = ({chatType})=>{
             console.log(file);
           reader.readAsDataURL(file);
         }
+    }
+
+    const preventCopyPaste = (e) => {
+      if(!isAdmin){
+        e.preventDefault()
+        alert("Copying and pasting is not allowed!")
+      }
     }
 
     const handleChange = (e)=>{
@@ -129,6 +143,9 @@ export const ChatScreen = ({chatType})=>{
               value={message.message}
               onChange={handleChange}
               onSubmit={sendMessage}
+              onCopy={(e) => preventCopyPaste(e)}  
+              onPaste={(e) => preventCopyPaste(e)}  
+              onCut={(e) => preventCopyPaste(e)}
               placeholder="Enter the message..."
             />
           </div>

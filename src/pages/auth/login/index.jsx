@@ -1,9 +1,13 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import loginReducer, { setLoginData } from '../../../store/features/loginReducer'
 
 export  function Login() {
     const [userData,setUserData]= useState({})
+    const dispatch = useDispatch()
+    const history = useNavigate()
 
     const handleChange = (e)=>{
          const data = e.target
@@ -13,7 +17,16 @@ export  function Login() {
         e.preventDefault()
         console.log(userData);
         
-        axios.post("http://44.203.55.138:2222/api/User/UserLogin",{userData})
+        axios.post("http://44.203.55.138:2222/api/User/UserLogin",userData)
+        .then((res)=>{
+            dispatch(setLoginData(res.data.Data))
+            debugger
+            if(res.data.Message === "Login Sucess"){
+                history('/')
+            }
+
+        })
+
     }
     return (
         <div className="text-center m-5-auto">
