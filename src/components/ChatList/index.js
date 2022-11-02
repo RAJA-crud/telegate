@@ -19,12 +19,12 @@ export const ChatList = ({ data, setChatUser, isChatTab }) => {
     }
     const deleteGroup =(data)=>{
         console.log(data,"Rydtfgjn");
-        const data = {
+        const value = {
             groupId:data.id,
             groupName: data.groupName,
             deletedBy: "arun01"
         }
-        axios.post(`http://44.203.55.138:2222/api/User/DeleteGroup`,data)
+        axios.post(`http://44.203.55.138:2222/api/User/DeleteGroup`,value)
     }
 
     return (
