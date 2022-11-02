@@ -68,7 +68,7 @@ export const ChatScreen = ({chatType})=>{
          const msg = {
             senderId: "arun01",
             [val.type === 'text' ? "message" : "image"]: val.type === 'text' ? val.value : base64,
-            id: new Date(),
+            timestamp: new Date(),
             type: val.type
          }
          console.log(msg);
@@ -77,7 +77,7 @@ export const ChatScreen = ({chatType})=>{
     }
 
     const sendMessage = ()=>{
-        
+        axios.post('http://44.203.55.138:2222/api/User/SaveChat',message)
         // if(!message.message || !message.image) return
         console.log(message,"____________________");
         const newMessage = {...chatMessage}

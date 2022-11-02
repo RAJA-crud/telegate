@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useState,useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addGroupData, setGroupData } from '../../store/features/groupListReducer';
+import axios from 'axios';
 
 export function Popup(props) {
   const [addEmp, setAddEmp]=useState(false)
@@ -31,6 +32,7 @@ export function Popup(props) {
   }
 
   const createGroup=()=>{
+    axios.post("http://44.203.55.138:2222/api/User/CreateGroup", groupDetails )
     dispatch(addGroupData(groupDetails))
        props.setGroupDetail(groupDetails)
        setAddEmp(false)
