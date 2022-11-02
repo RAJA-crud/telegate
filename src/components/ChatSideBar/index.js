@@ -50,7 +50,7 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
                         <div id="userRole">{role}</div>
                     </div>
                     <div id="button">
-                        <Button variant="secondary" onClick={() => setModalShow(true)} >Create</Button>
+                        {isAdmin && <Button variant="secondary" onClick={() => setModalShow(true)} >Create</Button>}
 
                     </div>
                 </div>

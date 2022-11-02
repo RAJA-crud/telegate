@@ -16,7 +16,7 @@ export const ChatList = ({ data, setChatUser, isChatTab }) => {
     },[role])
 
     const removeuser = (empId)=>{
-        axios.post(`http://44.203.55.138:2222/api/User/DeleteUser?empId={${empId}}`)
+        axios.post(`http://44.203.55.138:2222/api/User/DeleteUser?empId=${empId}`)
     }
     const getChat =(data)=>{
         axios.get(`http://44.203.55.138:2222/api/User/GetChat?empName={${data.receiver}}`)

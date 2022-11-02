@@ -116,7 +116,7 @@ export const ChatScreen = ({chatType})=>{
             {chatType === "chat" ? chatMessage?.receiver : chatMessage?.groupName}
           </div>
           <div className="clear-chat">
-                    <img src={clearChat} onClick={chatClear}/>
+               {isAdmin &&     <img src={clearChat} onClick={chatClear}/>}
             </div>
         </div>
         <div id="body" ref={chatBody}>
