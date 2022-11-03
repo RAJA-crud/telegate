@@ -4,42 +4,44 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import loginReducer, { setLoginData } from '../../../store/features/loginReducer'
 
-export  function Login() {
-    const [userData,setUserData]= useState({})
+export function Login() {
+    const [userData, setUserData] = useState({})
     const dispatch = useDispatch()
     const history = useNavigate()
 
-    const handleChange = (e)=>{
-         const data = e.target
-         setUserData({...userData, [data.name]:data.value})
+    const handleChange = (e) => {
+        const data = e.target
+        setUserData({ ...userData, [data.name]: data.value })
     }
-    const userLogin=(e)=>{
-        e.preventDefault()
-        console.log(userData);
-        
-        axios.post("http://44.203.55.138:2222/api/User/UserLogin",userData)
-        .then((res)=>{
-            dispatch(setLoginData(res.data.Data))
-            debugger
-            if(res.data.Message === "Login Sucess"){
+    const userLogin = (e) => {
+        e.preventDefault();
+        loginData();
+    }
+    const loginData = async () => {
+        try {
+            const loginResponse = await axios.post("http://44.203.55.138:2222/api/User/UserLogin", userData)
+            const result = loginResponse.data
+            dispatch(setLoginData(result.Data))
+            if (result.Message === "Login Sucess") {
                 history('/')
             }
-
-        })
-
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div className="text-center m-5-auto">
             <h2>Sign in to us</h2>
             <form onSubmit={userLogin}>
                 <p>
-                    <label>Username or email address</label><br/>
+                    <label>Username or email address</label><br />
                     <input type="text" onChange={handleChange} name="userName" required />
                 </p>
                 <p>
                     <label>Password</label>
                     <Link to="/forget-password"><label className="right-label">Forget password?</label></Link>
-                    <br/>
+                    <br />
                     <input onChange={handleChange} type="password" name="password" required />
                 </p>
                 <p>

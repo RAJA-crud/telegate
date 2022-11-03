@@ -1,42 +1,54 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { employees } from '../../utils/employees'
+// import { employees } from '../../utils/employees'
 import './popup.css'
 import Form from 'react-bootstrap/Form';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addGroupData, setGroupData } from '../../store/features/groupListReducer';
 import axios from 'axios';
 
 export function Popup(props) {
-  const [addEmp, setAddEmp]=useState(false)
-  const [groupDetails,setGroupDetails]= useState({
-    employees:[],
-    messages:[]
+  const [addEmp, setAddEmp] = useState(false)
+  const [employees, setEmployees] = useState([])
+  const [groupDetails, setGroupDetails] = useState({
+    employees: [],
+    messages: []
   })
-  const [employeeList,setEmployeeList] = useState([])
+  const [employeeList, setEmployeeList] = useState([])
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    setGroupDetails({...groupDetails, "employees": employeeList})
-  },[employeeList])
+  useEffect(() => {
+    setGroupDetails({ ...groupDetails, "employees": employeeList })
+  }, [employeeList])
 
-  const handleChange=(e)=>{
+  const handleChange = (e) => {
     const data = e.target
-      setGroupDetails({...groupDetails, [data.name]: data.value})
+    setGroupDetails({ ...groupDetails, [data.name]: data.value })
   }
 
-  const addEmployee=(val)=>{
+  const addEmployee = (val) => {
     setEmployeeList(oldArray => [...oldArray, val])
-      
-  }
 
-  const createGroup=()=>{
-    axios.post("http://44.203.55.138:2222/api/User/CreateGroup", groupDetails )
-    dispatch(addGroupData(groupDetails))
-       props.setGroupDetail(groupDetails)
-       setAddEmp(false)
-       props.onHide()
+  }
+  const createGroup = async () => {
+    try {
+      let data = { ...groupDetails }
+      console.log(data, "123456789");
+      const res = await axios.post("http://44.203.55.138:2222/api/User/CreateGroup", groupDetails)
+      dispatch(addGroupData(groupDetails))
+      props.setGroupDetail(groupDetails)
+      setAddEmp(false)
+      props.onHide()
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+  const nextPage = () => {
+    if (groupDetails.groupName) {
+      setAddEmp(true)
+    }
   }
   return (
     <Modal
@@ -55,41 +67,35 @@ export function Popup(props) {
         <div id="popupBody">
           {/* {
             addEmp ?          */}
-               {
-              addEmp && employees?.map((val, i) => (
-                <div id='empList'>
-                  <div key={i}>{val.name}</div>
-                  <input type="checkbox" name="emp" className='groupCheck' id={val.id} onChange={()=>addEmployee(val.name)} />
-                </div>
-              ))
-            }
-            { !addEmp && <Form>
+          {
+            addEmp && employees?.map((val, i) => (
+              <div id='empList'>
+                <div key={i}>{val.name}</div>
+                <input type="checkbox" name="emp" className='groupCheck' id={val.id} onChange={() => addEmployee(val.name)} />
+              </div>
+            ))
+          }
+          {!addEmp && <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Group Name</Form.Label>
               <Form.Control type="text" name='groupName' placeholder="Enter group name" onChange={handleChange} />
-              {/* <Form.Text className="text-muted"> */}
-                {/* We'll never share your email with anyone else.
-              </Form.Text> */}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Description</Form.Label>
-              <Form.Control type="text" name='groupDescription' placeholder="Enter group description" onChange={handleChange}/>
+              <Form.Control type="text" name='groupDescription' placeholder="Enter group description" onChange={handleChange} />
             </Form.Group>
-            {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
-            <Button variant="primary" onClick={()=>setAddEmp(true)} >
+            <Button variant="primary" onClick={nextPage} >
               Add employees
             </Button>
           </Form>
-}
+          }
 
         </div>
       </Modal.Body>
-      <Modal.Footer style={{justifyContent:"center"}}>
-        {addEmp &&<Button onClick={createGroup}>Create Group</Button>}
-        {!addEmp &&<Button onClick={props.onHide} >Close</Button>}
+      <Modal.Footer style={{ justifyContent: "center" }}>
+        {addEmp && <Button onClick={createGroup}>Create Group</Button>}
+        {!addEmp && <Button onClick={props.onHide} >Close</Button>}
       </Modal.Footer>
     </Modal>
   );

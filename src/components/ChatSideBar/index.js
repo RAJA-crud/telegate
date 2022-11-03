@@ -1,5 +1,4 @@
 import { ChatList } from "../ChatList"
-import { chatListData } from "../../utils/data"
 import { Link } from 'react-router-dom'
 import { Button } from "react-bootstrap"
 import { useEffect, useState } from "react"
@@ -14,15 +13,13 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
     const [groups, setGroups] = useState([])
     const [isChatTab, setIsChatTab] = useState(true)
     const dispatch = useDispatch()
-    const {groupMessageData} = useSelector(state=> state.groupMessage)
-    const {role,userName} = useSelector((_state)=> _state.login.loginData)
+    const { groupMessageData } = useSelector(state => state.groupMessage)
+    const { role, userName } = useSelector((_state) => _state.login.loginData)
+    const arr = []
 
-    useEffect(()=>{
-        role=== "Admin" ? setIsAdmin(true) : setIsAdmin(false)
-    },[role])
-
-    console.log("groupMessageData",groupMessageData);
-
+    useEffect(() => {
+        role === "Admin" ? setIsAdmin(true) : setIsAdmin(false)
+    }, [role])
     useEffect(() => {
         if (Object.values(groupDetail).length) {
             setGroups(oldArr => [...oldArr, groupDetail])
@@ -31,13 +28,11 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
     useEffect(() => {
         isChatTab ? setChatType("chat") : setChatType('group')
     }, [isChatTab])
-    console.log(groups);
-    const handleClick =(e)=>{
+    const handleClick = (e) => {
         const event = e.target
-        event.id === 'chats' ? setIsChatTab(true) : setIsChatTab( false)
+        event.id === 'chats' ? setIsChatTab(true) : setIsChatTab(false)
         dispatch(setChatScreenData(""))
     }
-
     return (
         <div id="sideBar">
             <div id="header">
@@ -51,10 +46,8 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
                     </div>
                     <div id="button">
                         {isAdmin && <Button variant="secondary" onClick={() => setModalShow(true)} >Create</Button>}
-
                     </div>
                 </div>
-                {/* <div id="searchField"></div> */}
             </div>
             <div id="body">
                 <div id="nav">
@@ -62,16 +55,16 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
                     <div id="groups" onClick={handleClick}>GROUPS</div>
                 </div>
                 <div id="bodyContent">
-                    {isChatTab && chatListData?.map((data, i) => (
+                    {isChatTab && arr?.map((data, i) => (
                         <ChatList setChatUser={setChatUser} isChatTab={isChatTab} key={i} data={data} />
                     ))}
- 
+
                     {!isChatTab && groupMessageData?.map((data, i) => (
                         <ChatList setChatUser={setChatUser} isChatTab={isChatTab} key={i} data={data} />
                     ))}
 
                 </div>
-                
+
             </div>
             <div id="popup">
                 <Popup show={modalShow} setGroupDetail={setGroupDetail} onHide={() => setModalShow(false)} />

@@ -1,6 +1,6 @@
 import { ChatScreen } from '../../components/chatScreen'
 import { ChatSideBar } from '../../components/ChatSideBar'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './chat.scss'
 import axios from 'axios';
 // import {chatData} from '../../store/features'
@@ -11,29 +11,29 @@ import { setGroupData } from '../../store/features/groupListReducer';
 
 import { useNavigate } from 'react-router-dom'
 
-export const Chat = ()=>{
+export const Chat = () => {
     const dispatch = useDispatch()
-    const [chatUser,setChatUser] = useState("Raja")
+    const [chatUser, setChatUser] = useState("Raja")
     const [chatType, setChatType] = useState('chat')
-    const {role} = useSelector(state=> state.login.loginData)
+    const { role } = useSelector(state => state.login.loginData)
     const navigate = useNavigate()
-    useEffect(()=>{
-        // console.log("type of role", typeof role, !role );
+    useEffect(() => {
         !role ? navigate('/login') : navigate("/")
-      axios.get("http://localhost:4000/chatListData")
-      .then(response=>
-      dispatch(setChatData(response.data)))
-      axios.get("http://localhost:4000/groupMessage")
-      .then(response=>
-      dispatch(setGroupData(response.data)))
-
-    },[])
-
-
-    return(
+    }, [])
+    const getCandidteList = async () => {
+        try {
+            const candidateResponse = await axios.get("http://44.203.55.138:2222/api/User/GetCandidteListForAdmin")
+            const result = candidateResponse.data
+            dispatch(setChatData(result))
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    return (
         <div id="chat">
-            <ChatSideBar setChatType={setChatType} setChatUser={setChatUser}/>
-            <ChatScreen chatType={chatType} chatUser={chatUser}/>
+            <ChatSideBar setChatType={setChatType} setChatUser={setChatUser} />
+            <ChatScreen chatType={chatType} chatUser={chatUser} />
         </div>
     )
 }
