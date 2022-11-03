@@ -1,6 +1,5 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-// import { employees } from '../../utils/employees'
 import './popup.css'
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react';
@@ -29,12 +28,10 @@ export function Popup(props) {
 
   const addEmployee = (val) => {
     setEmployeeList(oldArray => [...oldArray, val])
-
   }
   const createGroup = async () => {
     try {
       let data = { ...groupDetails }
-      console.log(data, "123456789");
       const res = await axios.post("http://44.203.55.138:2222/api/User/CreateGroup", groupDetails)
       dispatch(addGroupData(groupDetails))
       props.setGroupDetail(groupDetails)

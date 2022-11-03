@@ -6,13 +6,13 @@ import groupListReducer from "./features/groupListReducer";
 import loginReducer from "./features/loginReducer";
 
 const appReducer = combineReducers({
-        employee:employeeReducer,
-        chatlist:chatlistReducer,
-        groupMessage:groupListReducer,
-        chatScreen:chatScreenReducer,
-        login:loginReducer
-})
-const rootReducer = (state,action) => {
-    return appReducer(state,action)
-}
-export default rootReducer
+  employee: employeeReducer,
+  chatlist: chatlistReducer,
+  groupMessage: groupListReducer,
+  chatScreen: chatScreenReducer,
+  login: loginReducer,
+});
+const rootReducer = (state, action) => {
+  return appReducer(state, action);
+};
+export default rootReducer;

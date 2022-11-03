@@ -1,111 +1,115 @@
-import { useEffect, useRef, useState } from "react"
-import { chatListData, groupMessage } from "../../utils/data"
-import emoji from '../../assets/svg/emoji.svg'
-import media from '../../assets/svg/media.svg'
-import send from '../../assets/svg/send.svg'
-import clearChat from '../../assets/svg/clearChat.svg'
-import axios from "axios"
+import { useEffect, useRef, useState } from "react";
+import media from "../../assets/svg/media.svg";
+import send from "../../assets/svg/send.svg";
+import clearChat from "../../assets/svg/clearChat.svg";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addChaMessage } from "../../store/features/chatlistReducer"
-
-
+import { addChaMessage } from "../../store/features/chatlistReducer";
 
 export const ChatScreen = ({ chatType }) => {
-
-  const { chatData } = useSelector((_state) => _state.chatlist)
-  const { chatName } = useSelector((_state) => _state.chatScreen)
-  const [isAdmin, setIsAdmin] = useState(true)
+  const { chatData } = useSelector((_state) => _state.chatlist);
+  const { chatName } = useSelector((_state) => _state.chatScreen);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [chatMessage, setChatMessage] = useState({
-    messages: []
-  })
-  const [message, setMessage] = useState({})
-  const [base64, setBase64] = useState("")
-  const { groupMessageData } = useSelector(state => state.groupMessage)
-  const dispatch = useDispatch()
+    messages: [],
+  });
+  const [message, setMessage] = useState({});
+  const [base64, setBase64] = useState("");
+  const { groupMessageData } = useSelector((state) => state.groupMessage);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setMessage({ ...message, 'image': base64 })
-  }, [base64])
+    setMessage({ ...message, image: base64 });
+  }, [base64]);
 
-  const { role } = useSelector((_state) => _state.login.loginData)
+  const { role } = useSelector((_state) => _state.login.loginData);
   useEffect(() => {
-    role === "Admin" ? setIsAdmin(true) : setIsAdmin(false)
-  }, [role])
-  const chatBody = useRef(0)
+    role === "Admin" ? setIsAdmin(true) : setIsAdmin(false);
+  }, [role]);
+  const chatBody = useRef(0);
   useEffect(() => {
-    if (chatType === 'chat' && chatData.length) {
+    if (chatType === "chat" && chatData.length) {
       const chat = chatData?.find((data) => {
-        return data.receiver === chatName
-      })
-      setChatMessage(chat)
+        return data.receiver === chatName;
+      });
+      setChatMessage(chat);
     } else if (chatType === "group" && chatData.length) {
       const chat = groupMessageData.find((data) => {
-        return data.groupName === chatName
-      })
-      setChatMessage(chat)
+        return data.groupName === chatName;
+      });
+      setChatMessage(chat);
     }
-  }, [chatName])
+  }, [chatName]);
 
   const imagetoBase64 = (src) => {
-    const preview = document.querySelector('img');
-    const file = src
+    const preview = document.querySelector("img");
+    const file = src;
     const reader = new FileReader();
 
-    reader.addEventListener("load", () => {
-      // convert image file to base64 string
-      setBase64(reader.result)
-    }, false);
+    reader.addEventListener(
+      "load",
+      () => {
+        // convert image file to base64 string
+        setBase64(reader.result);
+      },
+      false
+    );
 
-    if (file && file.type.match('image.*')) {
+    if (file && file.type.match("image.*")) {
       reader.readAsDataURL(file);
     }
-  }
+  };
 
   const preventCopyPaste = (e) => {
     if (!isAdmin) {
-      e.preventDefault()
-      alert("Copying and pasting is not allowed!")
+      e.preventDefault();
+      alert("Copying and pasting is not allowed!");
     }
-  }
+  };
 
   const handleChange = (e) => {
-    const val = e.target
-    if (val.type === 'file') imagetoBase64(val.files[0])
+    const val = e.target;
+    if (val.type === "file") imagetoBase64(val.files[0]);
     const msg = {
       senderId: "arun01",
-      [val.type === 'text' ? "message" : "image"]: val.type === 'text' ? val.value : base64,
+      [val.type === "text" ? "message" : "image"]:
+        val.type === "text" ? val.value : base64,
       timestamp: new Date(),
-      type: val.type
-    }
-    setMessage(msg)
+      type: val.type,
+    };
+    setMessage(msg);
+  };
 
-  }
-
-  const sendMessage = async() => {
-    try{
-      const res = await axios.post('http://44.203.55.138:2222/api/User/SaveChat', message)
-      const newMessage = { ...chatMessage }
-      setChatMessage({ ...chatMessage, "messages": [...chatMessage['messages'], message] })
-      setMessage({ ...message, "message": "" })
-      chatBody.current.scrollTop = chatBody.current.scrollHeight
-    }
-    catch(e){
+  const sendMessage = async () => {
+    try {
+      const res = await axios.post(
+        "http://44.203.55.138:2222/api/User/SaveChat",
+        message
+      );
+      const newMessage = { ...chatMessage };
+      setChatMessage({
+        ...chatMessage,
+        messages: [...chatMessage["messages"], message],
+      });
+      setMessage({ ...message, message: "" });
+      chatBody.current.scrollTop = chatBody.current.scrollHeight;
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
   const chatClear = () => {
-    axios.get("")
-
-  }
+    axios.get("");
+  };
   return (
     <div id="chatScreen">
-      {
-        chatName &&
+      {chatName && (
         <>
           <div id="header">
             <div id="profile"></div>
             <div id="userName">
-              {chatType === "chat" ? chatMessage?.receiver : chatMessage?.groupName}
+              {chatType === "chat"
+                ? chatMessage?.receiver
+                : chatMessage?.groupName}
             </div>
             <div className="clear-chat">
               {isAdmin && <img src={clearChat} onClick={chatClear} />}
@@ -117,14 +121,22 @@ export const ChatScreen = ({ chatType }) => {
                 id="message"
                 key={i}
                 className={
-                  msg.senderId !== "arun01" ? "receiverMessage" : "senderMessage"
+                  msg.senderId !== "arun01"
+                    ? "receiverMessage"
+                    : "senderMessage"
                 }
               >
-                {
-                  msg.message ?
-                    msg.message :
-                    <img height={"100px"} width={"150px"} src={msg.image} alt="" srcset="" />
-                }
+                {msg.message ? (
+                  msg.message
+                ) : (
+                  <img
+                    height={"100px"}
+                    width={"150px"}
+                    src={msg.image}
+                    alt=""
+                    srcset=""
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -158,7 +170,7 @@ export const ChatScreen = ({ chatType }) => {
             </button>
           </div>
         </>
-      }
+      )}
     </div>
   );
-}
+};
