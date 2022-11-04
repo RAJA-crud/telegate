@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addChaMessage } from "../../store/features/chatlistReducer";
 
 export const ChatScreen = ({ chatType }) => {
-  const { chatData } = useSelector((_state) => _state.chatlist);
-  const { chatName } = useSelector((_state) => _state.chatScreen);
+  const { chatData } = useSelector((state) => state.chatlist);
+  const { chatName } = useSelector((state) => state.chatScreen);
   const [isAdmin, setIsAdmin] = useState(true);
   const [chatMessage, setChatMessage] = useState({
     messages: [],

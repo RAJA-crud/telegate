@@ -13,10 +13,8 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
   const [groups, setGroups] = useState([]);
   const [isChatTab, setIsChatTab] = useState(true);
   const dispatch = useDispatch();
-  const { groupMessageData } = useSelector((state) => state.groupMessage);
-  const { role, userName } = useSelector((_state) => _state.login.loginData);
-  const arr = [];
-
+  const { groupMessageData, role, userName, employeeListData } =
+    useSelector(mapStateToProps);
   useEffect(() => {
     role === "Admin" ? setIsAdmin(true) : setIsAdmin(false);
   }, [role]);
@@ -33,6 +31,7 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
     event.id === "chats" ? setIsChatTab(true) : setIsChatTab(false);
     dispatch(setChatScreenData(""));
   };
+  console.log(employeeListData, "employeeListData");
   return (
     <div id="sideBar">
       <div id="header">
@@ -64,7 +63,7 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
         </div>
         <div id="bodyContent">
           {isChatTab &&
-            arr?.map((data, i) => (
+            employeeListData?.map((data, i) => (
               <ChatList
                 setChatUser={setChatUser}
                 isChatTab={isChatTab}
@@ -93,4 +92,13 @@ export const ChatSideBar = ({ setChatUser, setChatType }) => {
       </div>
     </div>
   );
+};
+
+export const mapStateToProps = (state) => {
+  return {
+    groupMessageData: state.groupMessage.groupMessageData,
+    role: state.login.loginData.role,
+    userName: state.login.loginData.userName,
+    employeeListData: state.employee.employeeData,
+  };
 };
